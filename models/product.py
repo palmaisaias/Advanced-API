@@ -1,18 +1,8 @@
-from database import Base, db
-from sqlalchemy.orm import relationship
-from sqlalchemy import Column, Integer, String, Float, Table, ForeignKey
+from database import db, Base
+from sqlalchemy.orm import Mapped, mapped_column
 
-order_products = Table(
-    'Order_Products',
-    Base.metadata,
-    Column('order_id', Integer, ForeignKey('Orders.id'), primary_key=True),
-    Column('product_id', Integer, ForeignKey('Products.id'), primary_key=True)
-)
-
-class Products(Base):
+class Product(Base):
     __tablename__ = 'Products'
-
-    id = Column(Integer, primary_key=True)
-    product_name = Column(String(200), nullable=False)
-    price = Column(Float, nullable=False)
-    orders = relationship('Orders', secondary=order_products, back_populates='products')
+    id: Mapped[int] = mapped_column(primary_key=True)
+    product_name: Mapped[str] = mapped_column(db.String(255), nullable=False)
+    price: Mapped[float] = mapped_column(db.Float, nullable=False)

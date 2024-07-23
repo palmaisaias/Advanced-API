@@ -1,20 +1,14 @@
-from database import Base, db
-from sqlalchemy.orm import relationship
-from sqlalchemy import Column, Integer, Date, ForeignKey
-from datetime import date
+from typing import List
+import datetime
+from database import db, Base
+from sqlalchemy.orm import Mapped, mapped_column
+from models.orderProduct import order_product
 
-from models.product import order_products
-from sqlalchemy.ext.declarative import declared_attr
-
-class Orders(Base):
+class Order(Base):
     __tablename__ = 'Orders'
+    id: Mapped[int] = mapped_column(primary_key=True)
+    order_date: Mapped[datetime.date] = mapped_column(db.Date, nullable=False)
+    customer_id: Mapped[int] = mapped_column(db.ForeignKey('Customers.id'))
 
-    id = Column(Integer, primary_key=True)
-    order_date = Column(Date, nullable=False, default=date.today)
-    customer_id = Column(Integer, ForeignKey('Customer.id'))
-
-    @declared_attr
-    def customer(cls):
-        return relationship('Customer', back_populates='orders')
-
-    products = relationship('Products', secondary=order_products, back_populates='orders')
+    customer: Mapped["Customer"] = db.relationship("Customer", back_populates="orders")
+    products: Mapped[List["Product"]] = db.relationship("Product", secondary=order_product)

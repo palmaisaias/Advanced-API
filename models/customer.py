@@ -1,12 +1,16 @@
-from database import Base, db
-from sqlalchemy.orm import relationship
-from sqlalchemy import Column, Integer, String
+from database import db, Base
+from sqlalchemy.orm import Mapped, mapped_column
+from typing import List
 
 class Customer(Base):
-    __tablename__ = 'Customer'
+    __tablename__ = 'Customers'
+    id: Mapped[int] = mapped_column(primary_key=True)
+    customer_name: Mapped[str] = mapped_column(db.String(200), nullable=False)
+    email: Mapped[str] = mapped_column(db.String(200), unique=True, nullable=False)
+    phone: Mapped[str] = mapped_column(db.String(20), nullable=False)
+    username: Mapped[str] = mapped_column(db.String(200), unique=True, nullable=False)
+    password: Mapped[str] = mapped_column(db.String(200), nullable=False)
+    role_id: Mapped[int] = mapped_column(db.ForeignKey('Roles.id'))
 
-    id = Column(Integer, primary_key=True)
-    customer_name = Column(String(200), nullable=False)
-    email = Column(String(300))
-    phone = Column(String(16))
-    orders = relationship('Orders', back_populates='customer')
+    role: Mapped['Role'] = db.relationship('Role', back_populates='customers')
+    orders: Mapped[List["Order"]] = db.relationship('Order', back_populates="customer")

@@ -7,9 +7,10 @@ class OrderSchema(ma.Schema):
     order_date = fields.Date(required=False)
     customer_id = fields.Integer(required=True)
     products = fields.List(fields.Nested(ProductSchema))
+    customer = fields.Nested("CustomerOrderSchema")
 
     class Meta:
-        fields = ('id', 'order_date', 'customer_id', 'products')
+        fields = ('id', 'date', 'customer_id', 'product_ids', 'products', 'customer')
 
 order_schema = OrderSchema()
 orders_schema = OrderSchema(many=True)

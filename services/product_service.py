@@ -1,9 +1,9 @@
 from database import db
-from models.product import Products
+from models.product import Product
 from sqlalchemy import select
 
 def save_product(product_data):
-    new_product = Products(
+    new_product = Product(
         product_name=product_data['product_name'], 
         price=product_data['price']
     )
@@ -13,10 +13,10 @@ def save_product(product_data):
     return new_product
 
 def find_all_products():
-    query = select(Products)
+    query = select(Product)
     all_products = db.session.execute(query).scalars().all()
     return all_products
 
 def find_all_paginate(page, per_page):
-    products = db.paginate(select(Products), page=page, per_page=per_page)
+    products = db.paginate(select(Product), page=page, per_page=per_page)
     return products
