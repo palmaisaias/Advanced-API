@@ -36,3 +36,11 @@ def get_cart(user_id):
         return jsonify({"message": "Cart not found"}), 404
 
     return cart_schema.jsonify(cart), 200
+
+def clear_cart(user_id):
+    cart, error = cart_service.clear_cart(user_id)
+    if error:
+        return jsonify({"message": error}), 404
+
+    return jsonify({"message": "Cart cleared successfully"}), 200
+

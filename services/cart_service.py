@@ -41,3 +41,16 @@ def remove_item_from_cart(user_id, product_id):
 def get_cart(user_id):
     cart = db.session.query(Cart).filter_by(user_id=user_id).first()
     return cart
+
+def clear_cart(user_id):
+    cart = db.session.query(Cart).filter_by(user_id=user_id).first()
+    if not cart:
+        return None, "Cart not found"
+
+    cart_items = db.session.query(CartItem).filter_by(cart_id=cart.id).all()
+    for item in cart_items:
+        db.session.delete(item)
+
+    db.session.commit()
+    return cart, None
+
