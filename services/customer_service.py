@@ -31,10 +31,35 @@ def save(customer_data):
     db.session.refresh(new_customer)
     return new_customer
 
+def find_customer_by_id(customer_id):
+    query = select(Customer).where(Customer.id == customer_id)
+    customer = db.session.execute(query).scalars().one_or_none()
+    return customer
+
 def find_all_customers():
     query = select(Customer)
     all_customers = db.session.execute(query).scalars().all()
     return all_customers
+
+def update_customer_details(id, data):
+    customer = find_customer_by_id(id)
+    if customer:
+        if 'customer_name' in data:
+            customer.customer_name = data['customer_name']
+        if 'email' in data:
+            customer.email = data['email']
+        if 'phone' in data:
+            customer.phone = data['phone']
+        db.session.commit()
+    return customer
+
+def delete_customer_by_id(id):
+    customer = find_customer_by_id(id)
+    if customer:
+        db.session.delete(customer)
+        db.session.commit()
+        return True
+    return False
 
 def find_all_paginate(page, per_page):
     customers = db.paginate(select(Customer), page=page, per_page=per_page)

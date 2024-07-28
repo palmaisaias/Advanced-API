@@ -25,6 +25,25 @@ def save():
     new_customer = customer_service.save(customer_data)
     return customer_schema.jsonify(new_customer), 201
 
+def get_customer_by_id(id):
+    customer = customer_service.find_customer_by_id(id)
+    if customer is None:
+        return {"message": "Customer not found"}, 404
+    return customer_schema.jsonify(customer), 200
+
+def update_customer(id):
+    data = request.get_json()
+    customer = customer_service.update_customer_details(id, data)
+    if customer is None:
+        return {"message": "Customer not found"}, 404
+    return customer_schema.jsonify(customer), 200
+
+def delete_customer(id):
+    success = customer_service.delete_customer_by_id(id)
+    if not success:
+        return {"message": "Customer not found"}, 404
+    return {"message": "Customer deleted successfully"}, 200
+
 # @cache.cached(timeout=60)
 @admin_required
 def get_customers():

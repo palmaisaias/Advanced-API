@@ -13,7 +13,7 @@ class CustomerSchema(ma.Schema):
     class Meta:
         fields = ("id", "customer_name", "email", "phone", "username", "password", "role_id")
 
-customer_schema = CustomerSchema()
+customer_schema = CustomerSchema(exclude=["password"])
 customers_schema = CustomerSchema(many=True, exclude=["password"])
 
 class CustomerOrderSchema(ma.Schema):
