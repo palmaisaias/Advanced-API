@@ -8,26 +8,28 @@ from sqlalchemy import select
 from marshmallow import ValidationError
 from utils.util import user_token_required, admin_required
 
-def save_order():
-    try:
-        order_data = order_schema.load(request.json)
-    except ValidationError as e:
-        return jsonify(e.messages), 400
+@user_token_required
+def place_order(customer_id, token_id):
+    if customer_id != token_id:
+        return jsonify({"message": "Token does not match customer ID"}), 401
 
-    new_order = order_service.save_order(order_data)
-    return jsonify({"id": new_order.id, "Message": "It's on the way!"}), 201
+    try:
+        new_order = order_service.save_order_from_cart(customer_id)
+    except ValueError as e:
+        return jsonify({"message": str(e)}), 404
+
+    return jsonify({"id": new_order.id, "message": "Order placed successfully!"}), 201
 
 @user_token_required
-def get_order_items(id, token_id):
-    if id  == token_id:
-        query = select(Order).filter(Order.id == id)
-        order = db.session.execute(query).scalar()
+def get_order(id, token_id):
+    order = order_service.find_order_by_id(id)
+    if order is None:
+        return jsonify({"error": "Order not found"}), 404
 
-        if order is None:
-            return jsonify({"error": "You aint got no orders and therefore...no items"}), 404
-    else:
-        return jsonify({"messages": "Not your order, not YOUR items"}), 401
-    return products_schema.jsonify(order.products)
+    if order.customer_id != token_id:
+        return jsonify({"message": "Not your order"}), 401
+
+    return order_schema.jsonify(order)
 
 @admin_required
 def find_all_orders():

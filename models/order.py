@@ -2,7 +2,7 @@ from typing import List
 import datetime
 from database import db, Base
 from sqlalchemy.orm import Mapped, mapped_column
-from models.orderProduct import order_product
+from models.orderItem import OrderItem
 
 class Order(Base):
     __tablename__ = 'Orders'
@@ -11,4 +11,5 @@ class Order(Base):
     customer_id: Mapped[int] = mapped_column(db.ForeignKey('Customers.id'))
 
     customer: Mapped["Customer"] = db.relationship("Customer", back_populates="orders")
-    products: Mapped[List["Product"]] = db.relationship("Product", secondary=order_product)
+    items: Mapped[List["OrderItem"]] = db.relationship("OrderItem", back_populates="order")
+

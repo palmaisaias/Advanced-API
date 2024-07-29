@@ -7,8 +7,8 @@ from caching import cache
 from models.customer import Customer
 from models.order import Order
 from models.product import Product
-from models.orderProduct import order_product
 from models.role import Role
+from models.orderItem import OrderItem
 
 from routes.customer_routes import customer_bp
 from routes.product_routes import product_bp
