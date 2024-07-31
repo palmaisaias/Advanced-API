@@ -39,7 +39,7 @@ This is a factory application pattern, e-commerce API. The application runs usin
 - Order model
 - Order item model
 - Product model
-- Role model (included for routes protected by authorization or role)
+- Role model (included for routes protected by role)
 
 ## Schemas
 - Cart item schema
