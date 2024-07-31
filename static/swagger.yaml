@@ -40,10 +40,6 @@ paths:
           description: "Unauthorized - Token does not match customer ID"
           schema:
             $ref: "#/definitions/ErrorResponse"
-        404:
-          description: "Order could not be placed"
-          schema:
-            $ref: "#/definitions/ErrorResponse"
 
   /orders/{id}:
     get:
@@ -173,6 +169,31 @@ paths:
           description: "Invalid input"
         404:
           description: "Product not found"
+
+# CART ENDPOINTS -----------------------------------------------
+  /cart/{user_id}/add:
+    post:
+      tags:
+        - Carts
+      summary: "Add an item to the cart"
+      description: "Adds an item to the cart for a specific user"
+      parameters:
+        - name: "user_id"
+          in: "path"
+          required: true
+          type: "integer"
+          description: "ID of the user adding the item to the cart"
+        - in: "body"
+          name: "body"
+          required: true
+          description: "Product details to add to the cart"
+          schema:
+            $ref: "#/definitions/CartItemPayload"
+      responses:
+        200:
+          description: "Item added to cart successfully"
+          schema:
+            $ref: "#/definitions/CartItemResponse"
 
 definitions:
   LoginPayload:
@@ -323,3 +344,35 @@ definitions:
         type: "number"
         format: "float"
         description: "Price of the product"
+
+  CartItemPayload:
+    type: "object"
+    properties:
+      product_id:
+        type: "integer"
+        description: "ID of the product to add"
+      quantity:
+        type: "integer"
+        description: "Quantity of the product to add"
+        default: 1
+    required:
+      - product_id
+
+  CartItemResponse:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        description: "ID of the cart item"
+      product_id:
+        type: "integer"
+        description: "ID of the product"
+      quantity:
+        type: "integer"
+        description: "Quantity of the product"
+      user_id:
+        type: "integer"
+        description: "ID of the user"
+      message:
+        type: "string"
+        description: "Success message"
