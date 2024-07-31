@@ -2,6 +2,10 @@
 
 This is a factory application pattern, e-commerce API. The application runs using Flask, and all requirements can be found under `requirements.txt`. The API features limiter options as well as caching options.
 
+## Brief Description
+
+This e-commerce API allows for the creation of new customers. Upon creation, customers receive basic information such as name, phone, email, username, password, and role (for further access). Some routes are protected by either an authorization code or by role clearance. For this, the user receives an auth code whenever they log in, which they can use to access certain routes, place items in their cart, view their cart, and place their order. Certain routes, such as viewing all products, are unrestricted.
+
 ## Routes
 
 ### Customer Routes
