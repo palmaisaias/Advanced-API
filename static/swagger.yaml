@@ -1,0 +1,14 @@
+swagger: '2.0'
+info:
+  title: "Shopping API"
+  description: "API for Customer information, Orders and Products" 
+  version: "1.5"
+host: "127.0.0.1:5000"
+schemes: 
+  - "http"
+consumes:
+  - "application/json"
+produces:
+  - "application/json"
+paths: {}
+definitions: {}
