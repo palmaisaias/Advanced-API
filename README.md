@@ -1,4 +1,4 @@
-# E-commerce API Documentation
+# E-commerce API
 
 This is a factory application pattern, e-commerce API. The application runs using Flask, and all requirements can be found under `requirements.txt`. The API features limiter options as well as caching options.
 
