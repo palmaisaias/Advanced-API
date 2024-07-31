@@ -126,7 +126,7 @@ paths:
           schema:
             $ref: "#/definitions/AllProducts"
   
-    post: # Added new POST endpoint for saving a product
+    post:
       tags:
         - Products
       summary: "Save a new Product"
@@ -146,7 +146,7 @@ paths:
         400:
           description: "Invalid input"
   
-  /products/{product_id}: # Added new PUT endpoint for updating a product
+  /products/{product_id}:
     put:
       tags:
         - Products
@@ -230,7 +230,7 @@ definitions:
         type: "float" 
         description: "Product Price"
 
-  ProductPayload: # Added new definition for ProductPayload
+  ProductPayload:
     type: "object"
     properties:
       product_name:
@@ -244,7 +244,7 @@ definitions:
       - "name"
       - "price"
 
-  ProductResponse: # Added new definition for ProductResponse
+  ProductResponse:
     type: "object"
     properties:
       id:
@@ -258,7 +258,7 @@ definitions:
         type: "string"
         description: "Name of the product"
 
-  ProductUpdatePayload: # Added new definition for ProductUpdatePayload
+  ProductUpdatePayload:
     type: "object"
     properties:
       product_name:
